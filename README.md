@@ -82,7 +82,7 @@ classDiagram
 flowchart TD
     Start([Start]) --> GetTransaction[Receive TransactionContext]
     GetTransaction --> FindExecutor[Find RuleExecutor for TransactionContext.type]
-    FindExecutor -->|Executor Found| CallExecutor[Call RuleExecutor]
+    FindExecutor -->|Executor Found| CallExecutor["Call RuleExecutor.execute()"]
     FindExecutor -->|No Executor Found| LogIgnored[Log: No Executor Found]
     LogIgnored --> End([End])
 
@@ -96,4 +96,51 @@ flowchart TD
     IgnoreRule --> NextRule
     NextRule -->|More Rules| EvaluateRules
     NextRule -->|No More Rules| End
+```
+
+### Support NOT, AND and OR operator condition
+
+```mermaid
+flowchart TD
+    Start([Start]) --> GetTransaction[Receive TransactionContext]
+    GetTransaction --> FindExecutor[Find RuleExecutor for TransactionContext.type]
+    FindExecutor -->|Executor Found| CallExecutor["Call RuleExecutor.execute()"]
+    FindExecutor -->|No Executor Found| LogIgnored[Log: No Executor Found]
+    LogIgnored --> End([End])
+
+    CallExecutor --> EvaluateRules[Iterate through all Rules]
+    EvaluateRules --> CheckRootCondition[Evaluate Root Condition]
+
+    subgraph ConditionEvaluation[Condition Evaluation]
+        CheckRootCondition --> CheckNOT[Is NOT Condition Defined?]
+        CheckNOT -->|Yes| EvaluateNOT[Evaluate NOT Condition]
+        CheckNOT -->|No| CheckAND
+
+        EvaluateNOT --> ReturnNOTResult[Return Result of NOT Condition]
+        ReturnNOTResult -->|True| ExecuteActions
+        ReturnNOTResult -->|False| IgnoreRule
+
+        CheckAND --> IsANDDefined[Is AND Condition Defined?]
+        IsANDDefined -->|Yes| EvaluateAND[Evaluate AND Conditions]
+        IsANDDefined -->|No| CheckOR
+
+        EvaluateAND --> ReturnANDResult[Return Result of AND Conditions]
+        ReturnANDResult -->|True| ExecuteActions
+        ReturnANDResult -->|False| IgnoreRule
+
+        CheckOR --> IsORDefined[Is OR Condition Defined?]
+        IsORDefined -->|Yes| EvaluateOR[Evaluate OR Conditions]
+        IsORDefined -->|No| ReturnDefaultFalse[Return False]
+
+        EvaluateOR --> ReturnORResult[Return Result of OR Conditions]
+        ReturnORResult -->|True| ExecuteActions
+        ReturnORResult -->|False| IgnoreRule
+
+        ReturnDefaultFalse --> IgnoreRule
+    end
+
+    ExecuteActions --> NextRule[Move to Next Rule]
+    IgnoreRule --> NextRule
+    NextRule -->|More Rules| EvaluateRules
+    NextRule -->|No More Rules| End([End])
 ```
