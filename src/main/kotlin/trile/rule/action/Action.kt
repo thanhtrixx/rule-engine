@@ -14,8 +14,3 @@ enum class ActionType {
   EARN_POINTS_PER_SPENDING,
   EARN_FIXED_POINTS,
 }
-
-data class ActionWrapper(
-  val action: Action,
-  val parameter: Any?
-)

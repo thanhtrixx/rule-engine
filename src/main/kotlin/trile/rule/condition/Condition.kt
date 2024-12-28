@@ -18,8 +18,3 @@ enum class ConditionType {
   IN_CATEGORIES,
   CONTAINS
 }
-
-data class ConditionWrapper(
-  val condition: Condition,
-  val parameter: Any?
-)
