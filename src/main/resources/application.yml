@@ -3,55 +3,65 @@ spring:
     name: rule-engine
 
 rules:
-  purchase-types:
+  payment-use-cases:
     regular-card:
       name: Regular Card Purchases
       rules:
         - name: Earn points for regular card purchases over 10k
           conditions:
-            - type: GREATER_THAN
+            - type: EQUALS
               parameters:
                 amount: 10000
           actions:
             - type: EARN_POINT_BY_RATE
               parameters:
                 rate: 0.02 # Use decimal for percentage (2%)
-
-    online-discount-card:
-      name: Online Discount Card Purchases
-      rules:
-        - name: Earn points for online purchases
-          conditions:
-            - type: EQUALS
-              parameters:
-                channel: ONLINE
-          actions:
-            - type: EARN_POINT_BY_RATE
-              parameters:
-                rate: 0.05 # 5%
-
-    food-entertainment-card:
-      name: Food and Entertainment Card Purchases
-      rules:
-        - name: Earn points for food and entertainment
-          conditions:
-            - type: IN_CATEGORIES
-              parameters:
-                category: RESTAURANT;CINEMA;COFFEE_SHOP
-          actions:
-            - type: EARN_POINT_BY_RATE
-              parameters:
-                rate: 0.07 # 7%
-
-    value-added-service:
-      name: Value Added Service Purchases
-      rules:
-        - name: Earn points for VAS purchases containing keyword
-          conditions:
-            - type: CONTAINS
-              parameters:
-                text: buy
-          actions:
-            - type: EARN_POINT_BY_RATE
-              parameters:
-                rate: 0.07 # 7%
+#
+#        - name: Earn points for regular card purchases over 10k
+#          conditions:
+#            - type: GREATER_THAN
+#              parameters:
+#                amount: 10000
+#          actions:
+#            - type: EARN_POINT_BY_RATE
+#              parameters:
+#                rate: 0.02 # Use decimal for percentage (2%)
+#
+#    online-discount-card:
+#      name: Online Discount Card Purchases
+#      rules:
+#        - name: Earn points for online purchases
+#          conditions:
+#            - type: EQUALS
+#              parameters:
+#                channel: ONLINE
+#          actions:
+#            - type: EARN_POINT_BY_RATE
+#              parameters:
+#                rate: 0.05 # 5%
+#
+#    food-entertainment-card:
+#      name: Food and Entertainment Card Purchases
+#      rules:
+#        - name: Earn points for food and entertainment
+#          conditions:
+#            - type: IN_CATEGORIES
+#              parameters:
+#                category: RESTAURANT;CINEMA;COFFEE_SHOP
+#          actions:
+#            - type: EARN_POINT_BY_RATE
+#              parameters:
+#                rate: 0.07 # 7%
+#
+#    value-added-service:
+#      name: Value Added Service Purchases
+#      rules:
+#        - name: Earn points for VAS purchases containing keyword
+#          conditions:
+#            - type: CONTAINS
+#              parameters:
+#                text: buy
+#          actions:
+#            - type: EARN_POINT_BY_RATE
+#              parameters:
+#                rate: 0.07 # 7%
