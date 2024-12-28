@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class RuleEngineApplication
 
 fun main(args: Array<String>) {
-	runApplication<RuleEngineApplication>(*args)
+    runApplication<RuleEngineApplication>(*args)
 }
