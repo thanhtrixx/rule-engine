@@ -1,4 +1,4 @@
-package trile.rule
+package trile
 
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner

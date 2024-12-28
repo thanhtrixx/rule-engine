@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 @ConfigurationProperties(prefix = "rules")
 data class Rule(
-  val purchaseTypes: Map<String, RuleBySource> = emptyMap()
+  val purchaseTypes: Map<String, RuleBySource>
 ) {
   data class RuleBySource(
     val name: String,
