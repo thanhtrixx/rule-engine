@@ -46,6 +46,12 @@ jobs:
     #
     # - name: Build with Gradle 8.9
     #   run: gradle build
+    - name: Summarize tests results
+      uses: jeantessier/test-summary-action@v1
+
+    - name: JUnit Report Action
+      uses: mikepenz/action-junit-report@v5.2.0
+
 
   dependency-submission:
 
