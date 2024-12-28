@@ -8,7 +8,7 @@ import trile.rule.condition.ConditionType
 @Configuration
 @ConfigurationProperties(prefix = "rules")
 data class RuleConfiguration(
-  val purchaseTypes: Map<String, RuleSetDefinition>
+  val paymentUseCases: Map<String, RuleSetDefinition>
 ) {
   data class RuleSetDefinition(
     val name: String,
