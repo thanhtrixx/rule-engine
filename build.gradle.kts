@@ -20,6 +20,8 @@ repositories {
 
 extra["springModulithVersion"] = "1.3.1"
 
+configurations.forEach { it.exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging") }
+
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-actuator")
   implementation("org.springframework.boot:spring-boot-starter-web")
@@ -29,6 +31,9 @@ dependencies {
   implementation("org.springframework.modulith:spring-modulith-starter-core")
   developmentOnly("org.springframework.boot:spring-boot-devtools")
 //    developmentOnly("org.springframework.boot:spring-boot-docker-compose")
+
+  implementation("org.springframework.boot:spring-boot-starter-log4j2")
+  implementation("org.apache.logging.log4j:log4j-api-kotlin:1.5.0")
 
   runtimeOnly("com.h2database:h2")
   runtimeOnly("org.springframework.modulith:spring-modulith-actuator")
