@@ -3,7 +3,12 @@ Demo project for Rule engine using Spring Boot and Kotlin
 
 ### Diagram
 ```mermaid
- %%{init: { 'theme':'dark', 'look':'handDrawn' } }%%
+---
+title: Class diagram
+config:
+  theme: dark
+  look: handDrawn
+---
 classDiagram
     class RuleEngine {
         - Map~String, Condition~ conditionMap
