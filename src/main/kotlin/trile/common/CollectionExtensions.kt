@@ -1,6 +1,6 @@
-package trile
+package trile.common
 
-object RuleUtils {
+object CollectionExtensions {
 
 
 }
