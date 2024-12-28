@@ -1,5 +1,7 @@
 package trile.common
 
+import java.math.BigDecimal
+
 object CollectionExtensions {
 
 
@@ -9,11 +11,16 @@ fun <V> Map<String, V>?.getOrDefault(key: String, default: V) =
   if (this == null || !this.containsKey(key)) default
   else this[key]
 
-fun <V> Map<String, V>?.getOrThrow(key: String) = when {
-  this == null -> throw RuntimeException("Map is null")
-  !this.containsKey(key) -> throw RuntimeException("Map does not contain key $key")
-  else -> this[key]
-}
+fun <V> Map<String, V>?.getOrThrow(key: String): V =
+  if (this == null) {
+    throw RuntimeException("Map is null")
+  } else {
+    this[key] ?: throw RuntimeException("Map does not contain key $key")
+  }
+
+
+fun Map<String, String>?.getAndToBigDecimal(key: String): BigDecimal = BigDecimal(this.getOrThrow(key))
+fun Map<String, String>?.getAndToFloat(key: String): Float = this.getOrThrow(key).toFloat()
 
 //fun main() {
 //  val nullMap: Map<String, String>? = null
