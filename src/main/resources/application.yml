@@ -11,8 +11,7 @@ rules:
           conditions:
             - type: GREATER_THAN
               parameters:
-                key: transactionAmount # More descriptive key name
-                value: 10000
+                amount: 10000
           actions:
             - type: EARN_POINT_BY_RATE
               parameters:
@@ -25,8 +24,7 @@ rules:
           conditions:
             - type: EQUALS
               parameters:
-                key: transactionChannel
-                value: ONLINE
+                channel: ONLINE
           actions:
             - type: EARN_POINT_BY_RATE
               parameters:
@@ -39,11 +37,7 @@ rules:
           conditions:
             - type: IN_CATEGORIES
               parameters:
-                key: transactionCategory # More descriptive key name
-                categories:
-                  - RESTAURANT
-                  - CINEMA
-                  - COFFEE_SHOP
+                category: RESTAURANT;CINEMA;COFFEE_SHOP
           actions:
             - type: EARN_POINT_BY_RATE
               parameters:
@@ -56,6 +50,8 @@ rules:
           conditions:
             - type: CONTAINS
               parameters:
-                key: serviceName
-                value: "VAS"
+                text: buy
           actions:
+            - type: EARN_POINT_BY_RATE
+              parameters:
+                rate: 0.07 # 7%
