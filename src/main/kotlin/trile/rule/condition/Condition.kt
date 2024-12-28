@@ -3,11 +3,11 @@ package trile.rule.condition
 import trile.rule.model.RuleContext
 
 
-interface Condition {
+interface Condition<T> {
 
-  fun evaluate(context: RuleContext, parameter: Any?): Boolean
+  fun evaluate(context: RuleContext, parameter: T): Boolean
   val type: ConditionType
-  fun convertParameter(parameters: Map<String, String>): Any?
+  fun convertParameter(parameters: Map<String, String>): T
 }
 
 enum class ConditionType {

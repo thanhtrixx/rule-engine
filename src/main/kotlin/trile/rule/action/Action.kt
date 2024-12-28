@@ -3,10 +3,10 @@ package trile.rule.action
 import trile.rule.model.RuleContext
 
 
-interface Action {
-  fun execute(context: RuleContext, parameter: Any?)
+interface Action<T> {
+  fun execute(context: RuleContext, parameter: T)
   val type: ActionType
-  fun convertParameter(parameters: Map<String, String>): Any?
+  fun convertParameter(parameters: Map<String, String>): T
 }
 
 enum class ActionType {
