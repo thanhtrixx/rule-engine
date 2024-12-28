@@ -5,14 +5,14 @@ import org.springframework.boot.ApplicationRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import trile.common.Log
-import trile.rule.model.Rule
+import trile.rule.model.RuleConfiguration
 
 @SpringBootApplication
 class RuleEngineApplication(
-  private val rule: Rule,
+  private val ruleConfig: RuleConfiguration,
 ) : ApplicationRunner, Log {
   override fun run(args: ApplicationArguments?) {
-    l.info("Loaded rule config: [$rule]")
+    l.info("Loaded rule config: [$ruleConfig]")
   }
 }
 

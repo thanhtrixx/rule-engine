@@ -2,13 +2,15 @@ package trile.rule.model
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.Configuration
+import trile.rule.action.ActionType
+import trile.rule.condition.ConditionType
 
 @Configuration
 @ConfigurationProperties(prefix = "rules")
-data class Rule(
-  val purchaseTypes: Map<String, RuleBySource>
+data class RuleConfiguration(
+  val purchaseTypes: Map<String, RuleSetDefinition>
 ) {
-  data class RuleBySource(
+  data class RuleSetDefinition(
     val name: String,
     val rules: List<RuleDefinition>
   ) {
@@ -19,13 +21,13 @@ data class Rule(
     ) {
       data class ConditionDefinition(
         val name: String?,
-        val type: String,
+        val type: ConditionType,
         val parameters: Map<String, String> = emptyMap()
       )
 
       data class ActionDefinition(
         val name: String?,
-        val type: String,
+        val type: ActionType,
         val parameters: Map<String, String> = emptyMap()
       )
     }
