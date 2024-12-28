@@ -1,11 +1,11 @@
 package trile.rule.condition
 
-import trile.rule.model.RuleContext
+import trile.rule.model.TransactionContext
 
 
-interface Condition<T> {
+interface Condition<out T> {
 
-  fun evaluate(context: RuleContext, parameter: T): Boolean
+  fun evaluate(context: TransactionContext, parameter: @UnsafeVariance T): Boolean
   val type: ConditionType
   fun convertParameter(parameters: Map<String, String>): T
 }

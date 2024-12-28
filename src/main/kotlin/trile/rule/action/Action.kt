@@ -1,10 +1,10 @@
 package trile.rule.action
 
-import trile.rule.model.RuleContext
+import trile.rule.model.TransactionContext
 
 
-interface Action<T> {
-  fun execute(context: RuleContext, parameter: T)
+interface Action<out T> {
+  fun execute(context: TransactionContext, parameter: @UnsafeVariance T)
   val type: ActionType
   fun convertParameter(parameters: Map<String, String>): T
 }
