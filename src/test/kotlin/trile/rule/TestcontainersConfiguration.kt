@@ -1,4 +1,4 @@
-package trile.rule_engine
+package trile.rule
 
 import org.springframework.boot.test.context.TestConfiguration
 
