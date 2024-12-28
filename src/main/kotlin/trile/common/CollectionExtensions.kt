@@ -11,13 +11,15 @@ fun <V> Map<String, V>?.getOrDefault(key: String, default: V) =
   if (this == null || !this.containsKey(key)) default
   else this[key]
 
-fun <V> Map<String, V>?.getOrThrow(key: String): V =
+fun <V> Map<String, V>?.getOrThrow(key: String, errorMessage: String = "Map does not contains $key"): V =
   if (this == null) {
     throw RuntimeException("Map is null")
   } else {
-    this[key] ?: throw RuntimeException("Map does not contain key $key")
+    this[key] ?: throw RuntimeException(errorMessage)
   }
 
+fun <K, V> Map<K, V>.getOrThrow(key: K, errorMessage: String = "Map does not contains $key"): V =
+  this[key] ?: throw RuntimeException(errorMessage)
 
 fun Map<String, String>?.getAndToBigDecimal(key: String): BigDecimal = BigDecimal(this.getOrThrow(key))
 fun Map<String, String>?.getAndToFloat(key: String): Float = this.getOrThrow(key).toFloat()
