@@ -11,10 +11,3 @@ data class TransactionContext(
   val category: String = EMPTY_STRING,
   val additionalInfo: Map<String, String> = EMPTY_MAP
 )
-
-internal class Constants {
-    companion object {
-        const val EMPTY_STRING = ""
-        val EMPTY_MAP = emptyMap<String, String>()
-    }
-}

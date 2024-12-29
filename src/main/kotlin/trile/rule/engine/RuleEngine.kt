@@ -5,7 +5,10 @@ import trile.common.Log
 import trile.common.getOrThrow
 import trile.rule.action.Action
 import trile.rule.condition.Condition
+import trile.rule.model.ActionDefinition
+import trile.rule.model.ConditionDefinition
 import trile.rule.model.RuleConfiguration
+import trile.rule.model.RuleDefinition
 import trile.rule.model.TransactionContext
 
 @Service
@@ -35,19 +38,19 @@ class RuleEngine(
     executor.execute(context)
   }
 
-  private fun RuleConfiguration.RuleSetDefinition.RuleDefinition.ConditionDefinition.toConditionWithParameter(): ConditionWithParameter<Any> {
+  private fun ConditionDefinition.toConditionWithParameter(): ConditionWithParameter<Any> {
     val condition = conditionMap.getOrThrow(this.type, "Can not find condition for type [$type]")
-    return ConditionWithParameter(condition = condition, parameter = condition.convertParameter(parameters))
+    return ConditionWithParameter(condition = condition, parameter = condition.convertParameter(this))
   }
 
 
-  private fun RuleConfiguration.RuleSetDefinition.RuleDefinition.ActionDefinition.toActionWithParameter(): ActionWithParameter<Any> {
+  private fun ActionDefinition.toActionWithParameter(): ActionWithParameter<Any> {
     val action = actionMap.getOrThrow(type, "Can not find action for type: [${type}]")
     return ActionWithParameter(action = action, parameter = action.convertParameter(parameters))
   }
 
 
-  private fun createRules(ruleSetConfigurationDefinitions: List<RuleConfiguration.RuleSetDefinition.RuleDefinition>): List<RuleSetWrapper<Any, Any>> {
+  private fun createRules(ruleSetConfigurationDefinitions: List<RuleDefinition>): List<RuleSetWrapper<Any, Any>> {
     return ruleSetConfigurationDefinitions.map { rule ->
       RuleSetWrapper(
         conditions = rule.conditions.map { it.toConditionWithParameter() },

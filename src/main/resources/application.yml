@@ -16,6 +16,10 @@ rules:
             - type: EARN_POINT_BY_RATE
               parameters:
                 rate: 0.02 # Use decimal for percentage (2%)
+            - type: EARN_POINT_BY_RATE
+              parameters:
+                rate: 0.05 # Use decimal for percentage (2%)
+
 #
 #        - name: Earn points for regular card purchases over 10k
 #          conditions:
