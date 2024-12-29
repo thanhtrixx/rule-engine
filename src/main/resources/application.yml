@@ -4,21 +4,46 @@ spring:
 
 rules:
   payment-use-cases:
-    regular-card:
-      name: Regular Card Purchases
+    #    regular-card:
+    #      name: Regular Card Purchases
+    #      rules:
+    #        - name: Earn points for regular card purchases over 10k
+    #          conditions:
+    #            - type: EQUALS
+    #              parameters:
+    #                amount: 10000
+    #          actions:
+    #            - type: EARN_POINT_BY_RATE
+    #              parameters:
+    #                rate: 0.02 # Use decimal for percentage (2%)
+    #            - type: EARN_POINT_BY_RATE
+    #              parameters:
+    #                rate: 0.05 # Use decimal for percentage (2%)
+    super-card:
+      name: Super Card Purchases
       rules:
         - name: Earn points for regular card purchases over 10k
           conditions:
-            - type: EQUALS
-              parameters:
-                amount: 10000
+            - type: OPERATOR
+              name: Not equals 10000
+              not:
+                - name: Not equals 10000
+                  type: EQUALS
+                  parameters:
+                    amount: 10000
+          #              or:
+          #              - type: EQUALS
+          #                parameters:
+          #                  amount: 10000
+          #              - type: EQUALS
+          #                parameters:
+          #                  amount: 10001
+
+
           actions:
             - type: EARN_POINT_BY_RATE
               parameters:
                 rate: 0.02 # Use decimal for percentage (2%)
-            - type: EARN_POINT_BY_RATE
-              parameters:
-                rate: 0.05 # Use decimal for percentage (2%)
 
 #
 #        - name: Earn points for regular card purchases over 10k

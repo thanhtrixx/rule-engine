@@ -14,6 +14,11 @@ classDiagram
         + executeRules(context: TransactionContext)
     }
 
+    class RuleContext {
+        + createConditionMap(context: TransactionContext): - Map~String, Condition~
+        + createActionMap(context: TransactionContext): - Map~String, Action~
+    }
+
     class RuleExecutor {
         - String name
         - List~RuleSetWrapper~ rules
@@ -59,12 +64,10 @@ classDiagram
 
     class Condition {
         + evaluate(context: TransactionContext, parameter: ParameterType): Boolean
-        + convertParameter(parameters: Map~String, Any~): ParameterType
     }
 
     class Action {
         + execute(context: TransactionContext, parameter: ParameterType)
-        + convertParameter(parameters: Map~String, Any~): ParameterType
     }
 
     RuleEngine --> RuleExecutor : manages
@@ -72,6 +75,7 @@ classDiagram
     RuleSetWrapper --> ConditionWithParameter : has
     RuleSetWrapper --> ActionWithParameter : has
     RuleEngine --> RuleConfiguration : uses
+    RuleContext --> RuleEngine : inject
     RuleConfiguration --> RuleSetDefinition : uses
     RuleSetDefinition --> RuleDefinition : uses
     ConditionWithParameter --> Condition : references

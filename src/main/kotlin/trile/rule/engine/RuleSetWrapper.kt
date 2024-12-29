@@ -1,7 +1,10 @@
 package trile.rule.engine
 
+import trile.common.getOrThrow
 import trile.rule.action.Action
 import trile.rule.condition.Condition
+import trile.rule.condition.ConditionType
+import trile.rule.model.ConditionDefinition
 
 data class RuleSetWrapper<C, A>(
   val conditions: List<ConditionWithParameter<C>>,

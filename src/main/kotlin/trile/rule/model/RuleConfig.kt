@@ -30,7 +30,7 @@ data class ConditionDefinition(
   val parameters: Map<String, String> = EMPTY_MAP,
   val or: List<ConditionDefinition> = EMPTY_CONDITIONS,
   val and: List<ConditionDefinition> = EMPTY_CONDITIONS,
-  val not: ConditionDefinition?
+  val not: List<ConditionDefinition> = EMPTY_CONDITIONS,
 )
 
 data class ActionDefinition(
