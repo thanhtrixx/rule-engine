@@ -1,8 +1,11 @@
 # Rule Engine
 Demo project for Rule engine using Spring Boot and Kotlin
 
-### Classes Diagram
+### Class Diagram for Rule Engine and Rule models
 ```mermaid
+---
+title: Class Diagram for Rule Engine and Rule models
+---
 classDiagram
     class RuleEngine {
         - Map~String, Condition~ conditionMap
@@ -76,9 +79,12 @@ classDiagram
     RuleEngine --> TransactionContext : operates on
 ```
 
-### Flowchart
+### Flowchart for RuleEngine Execution
 
 ```mermaid
+---
+title: Flowchart for RuleEngine Execution
+---
 flowchart TD
     Start([Start]) --> GetTransaction[Receive TransactionContext]
     GetTransaction --> FindExecutor[Find RuleExecutor for TransactionContext.type]
@@ -98,49 +104,37 @@ flowchart TD
     NextRule -->|No More Rules| End
 ```
 
-### Support NOT, AND and OR operator condition
+### Flowchart for OperatorCondition Evaluation: support NOT, AND and OR operators
 
 ```mermaid
+---
+title: Flowchart for OperatorCondition Evaluation
+---
 flowchart TD
-    Start([Start]) --> GetTransaction[Receive TransactionContext]
-    GetTransaction --> FindExecutor[Find RuleExecutor for TransactionContext.type]
-    FindExecutor -->|Executor Found| CallExecutor["Call RuleExecutor.execute()"]
-    FindExecutor -->|No Executor Found| LogIgnored[Log: No Executor Found]
-    LogIgnored --> End([End])
-
-    CallExecutor --> EvaluateRules[Iterate through all Rules]
-    EvaluateRules --> CheckRootCondition[Evaluate Root Condition]
-
-    subgraph ConditionEvaluation[Condition Evaluation]
-        CheckRootCondition --> CheckNOT[Is NOT Condition Defined?]
-        CheckNOT -->|Yes| EvaluateNOT[Evaluate NOT Condition]
-        CheckNOT -->|No| CheckAND
-
-        EvaluateNOT --> ReturnNOTResult[Return Result of NOT Condition]
-        ReturnNOTResult -->|True| ExecuteActions
-        ReturnNOTResult -->|False| IgnoreRule
-
-        CheckAND --> IsANDDefined[Is AND Condition Defined?]
-        IsANDDefined -->|Yes| EvaluateAND[Evaluate AND Conditions]
-        IsANDDefined -->|No| CheckOR
-
-        EvaluateAND --> ReturnANDResult[Return Result of AND Conditions]
-        ReturnANDResult -->|True| ExecuteActions
-        ReturnANDResult -->|False| IgnoreRule
-
-        CheckOR --> IsORDefined[Is OR Condition Defined?]
-        IsORDefined -->|Yes| EvaluateOR[Evaluate OR Conditions]
-        IsORDefined -->|No| ReturnDefaultFalse[Return False]
-
-        EvaluateOR --> ReturnORResult[Return Result of OR Conditions]
-        ReturnORResult -->|True| ExecuteActions
-        ReturnORResult -->|False| IgnoreRule
-
-        ReturnDefaultFalse --> IgnoreRule
-    end
-
-    ExecuteActions --> NextRule[Move to Next Rule]
-    IgnoreRule --> NextRule
-    NextRule -->|More Rules| EvaluateRules
-    NextRule -->|No More Rules| End([End])
+    Start([Start]) --> CheckNOT[Is NOT Operator Defined?]
+    
+    CheckNOT -->|Yes| EvaluateNOT[Evaluate NOT Operator]
+    EvaluateNOT --> ReturnNOTResult[Return Inverted Result of NOT Operator]
+    ReturnNOTResult --> End([End])
+    
+    CheckNOT -->|No| CheckAND[Is AND Operators Defined?]
+    
+    CheckAND -->|Yes| EvaluateAND[Evaluate All AND Operators]
+    EvaluateAND --> CheckAllANDTrue{Are All AND Results True?}
+    CheckAllANDTrue -->|Yes| ReturnANDTrue[Return TRUE]
+    CheckAllANDTrue -->|No| ReturnANDFalse[Return FALSE]
+    ReturnANDTrue --> End
+    ReturnANDFalse --> End
+    
+    CheckAND -->|No| CheckOR[Is OR Operators Defined?]
+    
+    CheckOR -->|Yes| EvaluateOR[Evaluate All OR Operators]
+    EvaluateOR --> CheckAnyORTrue{Is Any OR Result True?}
+    CheckAnyORTrue -->|Yes| ReturnORTrue[Return TRUE]
+    CheckAnyORTrue -->|No| ReturnORFalse[Return FALSE]
+    ReturnORTrue --> End
+    ReturnORFalse --> End
+    
+    CheckOR -->|No| ReturnDefaultFalse[Return FALSE]
+    ReturnDefaultFalse --> End
 ```
