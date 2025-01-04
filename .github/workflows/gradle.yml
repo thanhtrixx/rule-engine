@@ -46,11 +46,22 @@ jobs:
     #
     # - name: Build with Gradle 8.9
     #   run: gradle build
-    - name: Summarize tests results
-      uses: jeantessier/test-summary-action@v1
 
+    # Display Unit Test
+    - name: Generate Test Summary Report
+      uses: dorny/test-reporter@v1
+      with:
+        name: JUnit Test Report
+        path: build/test-results/test/*.xml
+        reporter: java-junit
+        fail-on-error: true
+
+    # JUnit Report with Markdown format
     - name: JUnit Report Action
       uses: mikepenz/action-junit-report@v5.2.0
+      with:
+        report_paths: '**/build/test-results/test/*.xml'
+
 
 
   dependency-submission:
