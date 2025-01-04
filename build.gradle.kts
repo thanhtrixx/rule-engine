@@ -44,6 +44,7 @@ dependencies {
   testImplementation("org.springframework.modulith:spring-modulith-starter-test")
   testImplementation("org.testcontainers:junit-jupiter")
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+  testImplementation("io.mockk:mockk:1.13.7")
 }
 
 dependencyManagement {
