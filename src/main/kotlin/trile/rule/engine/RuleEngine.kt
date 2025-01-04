@@ -23,17 +23,17 @@ class RuleEngine(
   ruleConfig: RuleConfiguration,
   private val conditionMap: Map<ConditionType, Condition<Any>>,
   private val actionMap: Map<ActionType, Action<Any>>
-) : Log() {
+) : Log {
 
-  private val executorByType: Map<String, RuleExecutor> =
-    ruleConfig.paymentUseCases
+  private val ruleExecutorsByType: Map<String, RuleExecutor> =
+    ruleConfig.useCases
       .map {
         it.key to RuleExecutor(it.value.name, createRules(it.value.rules))
       }.toMap()
 
   fun executeRules(context: TransactionContext) {
     l.info("Executing with context [$context]")
-    val executor = executorByType[context.type]
+    val executor = ruleExecutorsByType[context.type]
     if (executor == null) {
       l.info("Cannot get executor for type ${context.type}. Ignored this transaction")
       return
@@ -89,7 +89,7 @@ class RuleEngine(
   private class RuleExecutor(
     private val name: String,
     private val rules: List<RuleSetWrapper<Any, Any>>
-  ) : Log() {
+  ) : Log {
 
     fun execute(context: TransactionContext) {
       for (rule in rules) {
@@ -106,12 +106,12 @@ class RuleEngine(
 internal class RuleContext(
   private val conditions: List<Condition<Any>>,
   private val actions: List<Action<Any>>
-) : Log() {
+) : Log {
 
   @Bean
-  fun conditionMap() =
+  fun buildConditionMap() =
     conditions.associateBy { it.type }.also { l.info("Loaded conditions [${it.keys.joinToString()}]") }
 
   @Bean
-  fun actionMap() = actions.associateBy { it.type }.also { l.info("Loaded actions [${it.keys.joinToString()}]") }
+  fun buildActionMap() = actions.associateBy { it.type }.also { l.info("Loaded actions [${it.keys.joinToString()}]") }
 }

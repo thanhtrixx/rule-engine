@@ -3,7 +3,7 @@ spring:
     name: rule-engine
 
 rules:
-  payment-use-cases:
+  use-cases:
     regular-card:
       name: Regular Card Purchases
       rules:

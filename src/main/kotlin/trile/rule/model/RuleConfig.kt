@@ -10,7 +10,7 @@ import trile.rule.model.Constants.Companion.EMPTY_MAP
 @Configuration
 @ConfigurationProperties(prefix = "rules")
 data class RuleConfiguration(
-  val paymentUseCases: Map<String, RuleSetDefinition>
+  val useCases: Map<String, RuleSetDefinition>
 )
 
 data class RuleSetDefinition(
