@@ -14,7 +14,7 @@ import trile.rule.model.TransactionContext
 class RuleEngineApplication(
   private val ruleConfig: RuleConfiguration,
   private val ruleEngine: RuleEngine
-) : ApplicationRunner, Log() {
+) : ApplicationRunner, Log {
   override fun run(args: ApplicationArguments?) {
     l.info("Loaded rule config: [$ruleConfig]")
 

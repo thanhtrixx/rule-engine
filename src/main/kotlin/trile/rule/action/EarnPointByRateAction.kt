@@ -7,7 +7,7 @@ import trile.common.getAndToBigDecimal
 import trile.rule.model.TransactionContext
 
 @Component
-class EarnPointByRateAction : Action<BigDecimal>, Log() {
+class EarnPointByRateAction : Action<BigDecimal>, Log {
   override fun execute(context: TransactionContext, parameter: BigDecimal) {
     l.info("Earn-point with amount [${context.amount}], rate [$parameter], point [${context.amount.multiply(parameter)}]")
   }
