@@ -6,7 +6,6 @@ import trile.rule.model.TransactionContext
 interface Action<out T> {
   fun execute(context: TransactionContext, parameter: @UnsafeVariance T)
   val type: ActionType
-  fun convertParameter(parameters: Map<String, String>): T
 }
 
 enum class ActionType {
