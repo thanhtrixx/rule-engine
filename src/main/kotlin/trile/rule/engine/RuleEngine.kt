@@ -8,6 +8,7 @@ import trile.common.getAndToBigDecimal
 import trile.common.getOrThrow
 import trile.rule.action.Action
 import trile.rule.action.ActionType
+import trile.rule.action.convertParameter
 import trile.rule.condition.Condition
 import trile.rule.condition.ConditionType
 import trile.rule.condition.OperatorConditionParameter
