@@ -4,12 +4,12 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
 import trile.common.Log
-import trile.common.getAndToBigDecimal
 import trile.common.getOrThrow
 import trile.rule.action.Action
+import trile.rule.action.ActionParameterConverter
 import trile.rule.action.ActionType
-import trile.rule.action.convertParameter
 import trile.rule.condition.Condition
+import trile.rule.condition.ConditionParameterConverter
 import trile.rule.condition.ConditionType
 import trile.rule.condition.OperatorConditionParameter
 import trile.rule.condition.OperatorType
@@ -42,40 +42,43 @@ class RuleEngine(
     executor.execute(context)
   }
 
-  private fun ConditionDefinition.toConditionWithParameter(conditionMap: Map<ConditionType, Condition<Any>>): ConditionWithParameter<Any> {
+  private inline fun <reified T> ConditionDefinition.toConditionWithParameter(conditionMap: Map<ConditionType, Condition<T>>): ConditionWithParameter<T> {
     val condition =
       conditionMap.getOrThrow(this.type, "Can not find condition for type [$type]")
+
+    val parameter = when {
+      condition is ConditionParameterConverter<*> -> condition.convertParameter(parameters)
+      condition.type == ConditionType.OPERATOR -> toOperatorConditionParameter(conditionMap as Map<ConditionType, Condition<Any>>)
+      else -> TODO()
+    }
     return ConditionWithParameter(
       condition = condition,
-      parameter = convertParameter(conditionMap)
+      parameter = parameter as T
     )
   }
 
-  private fun ConditionDefinition.convertParameter(
-    conditionMap: Map<ConditionType, Condition<Any>>
-  ): Any {
-    return when (this.type) {
-      ConditionType.EQUALS -> parameters.getAndToBigDecimal("amount")
-      ConditionType.OPERATOR -> {
-        val (type, conditions) = when {
-          this.not.isNotEmpty() -> OperatorType.NOT to this.not
-          this.and.isNotEmpty() -> OperatorType.AND to this.and
-          this.or.isNotEmpty() -> OperatorType.OR to this.or
-
-          else -> throw RuntimeException("Missing sub condition")
-        }
-        return OperatorConditionParameter(
-          type = type,
-          conditions = conditions.map { it.toConditionWithParameter(conditionMap) })
-      }
-
-      else -> RuntimeException("Not supported")
+  private inline fun <reified T> ActionDefinition.toActionWithParameter(actionMap: Map<ActionType, Action<T>>): ActionWithParameter<T> {
+    val action = actionMap.getOrThrow(type, "Can not find action for type: [${type}]")
+    val parameter = when {
+      action is ActionParameterConverter<*> -> action.convertParameter(parameters)
+      else -> TODO()
     }
+    return ActionWithParameter(action = action, parameter = parameter as T)
   }
 
-  private fun ActionDefinition.toActionWithParameter(actionMap: Map<ActionType, Action<Any>>): ActionWithParameter<Any> {
-    val action = actionMap.getOrThrow(type, "Can not find action for type: [${type}]")
-    return ActionWithParameter(action = action, parameter = action.convertParameter(parameters))
+  private fun ConditionDefinition.toOperatorConditionParameter(
+    conditionMap: Map<ConditionType, Condition<Any>>
+  ): OperatorConditionParameter {
+    val (type, conditions) = when {
+      this.not.isNotEmpty() -> OperatorType.NOT to this.not
+      this.and.isNotEmpty() -> OperatorType.AND to this.and
+      this.or.isNotEmpty() -> OperatorType.OR to this.or
+
+      else -> throw RuntimeException("Missing sub condition")
+    }
+    return OperatorConditionParameter(
+      type = type,
+      conditions = conditions.map { it.toConditionWithParameter(conditionMap) })
   }
 
   private fun createRules(ruleSetConfigurationDefinitions: List<RuleDefinition>): List<RuleSetWrapper<Any, Any>> {
