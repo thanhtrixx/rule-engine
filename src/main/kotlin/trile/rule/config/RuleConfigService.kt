@@ -1,18 +1,11 @@
 package trile.rule.config
 
-import org.springframework.stereotype.Service
+import trile.rule.model.RuleSetDefinition
 
 
-@Service
-class RuleService(private val ruleSetRepo: RuleSetDefinitionRepository) {
-
-  fun getAllRules(): List<RuleSetDefinition> = ruleSetRepo.findAll()
-
-  fun saveRuleSet(ruleSet: RuleSetDefinition): RuleSetDefinition {
-    return ruleSetRepo.save(ruleSet)
-  }
-
-  fun deleteRuleSet(id: Long) {
-    ruleSetRepo.deleteById(id)
-  }
+interface RuleConfigService {
+  fun getAllRuleSets(): List<RuleSetDefinition>
+  fun createRuleSet(ruleSet: RuleSetDefinition): RuleSetDefinition
+  fun updateRuleSet(id: Long, ruleSet: RuleSetDefinition): RuleSetDefinition?
+  fun deleteRuleSet(id: Long)
 }

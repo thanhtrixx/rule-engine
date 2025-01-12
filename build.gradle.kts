@@ -3,6 +3,9 @@ plugins {
   kotlin("plugin.spring") version "1.9.25"
   id("org.springframework.boot") version "3.4.1"
   id("io.spring.dependency-management") version "1.1.7"
+  kotlin("plugin.jpa") version "1.8.22" // Apply the JPA plugin
+  kotlin("kapt") version "1.8.22"
+  id("org.jetbrains.kotlin.plugin.noarg") version "1.9.25" // Apply the no-arg plugin
 }
 
 group = "trile"
@@ -55,6 +58,12 @@ dependencyManagement {
   imports {
     mavenBom("org.springframework.modulith:spring-modulith-bom:${property("springModulithVersion")}")
   }
+}
+
+noArg {
+  annotation("jakarta.persistence.Entity") // Add the @Entity annotation
+  annotation("jakarta.persistence.MappedSuperclass")
+  annotation("jakarta.persistence.Embeddable")
 }
 
 kotlin {
