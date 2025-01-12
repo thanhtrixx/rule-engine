@@ -2,57 +2,68 @@ spring:
   application:
     name: rule-engine
 
-rules:
-  use-cases:
-    regular-card:
-      name: Regular Card Purchases
-      rules:
-        - name: Earn points for regular card purchases over 10k
-          conditions:
-            - type: EQUALS
-              parameters:
-                amount: 10000
-          actions:
-            - type: EARN_POINT_BY_RATE
-              parameters:
-                rate: 0.02 # Use decimal for percentage (2%)
-            - type: EARN_POINT_BY_RATE
-              parameters:
-                rate: 0.05 # Use decimal for percentage (5%)
-    super-card:
-      name: Super Card Purchases
-      rules:
-        - name: Earn points for super card purchases 10k or 10001
-          conditions:
-            - type: OPERATOR
-              or:
-              - type: EQUALS
-                parameters:
-                  amount: 10000
-              - type: EQUALS
-                parameters:
-                  amount: 10001
-          actions:
-            - type: EARN_POINT_BY_RATE
-              parameters:
-                rate: 0.1 # Use decimal for percentage (10%)
+  datasource:
+    url: jdbc:mysql://localhost:3306/rule-engine-db?user=root&password=root
+    driverClassName: com.mysql.cj.jdbc.Driver
 
-    online-card:
-      name: Online Purchases
-      rules:
-        - name: Earn points for online card purchases over 10k
-          conditions:
-            - type: OPERATOR
-              name: Not equals 1
-              not:
-                - name: Not equals 1
-                  type: EQUALS
-                  parameters:
-                    amount: 1
-          actions:
-            - type: EARN_POINT_BY_RATE
-              parameters:
-                rate: 0.04 # Use decimal for percentage (4%)
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: on
+    open-in-view: off
+
+
+#rules:
+#  use-cases:
+#    regular-card:
+#      name: Regular Card Purchases
+#      rules:
+#        - name: Earn points for regular card purchases over 10k
+#          conditions:
+#            - type: EQUALS
+#              parameters:
+#                amount: 10000
+#          actions:
+#            - type: EARN_POINT_BY_RATE
+#              parameters:
+#                rate: 0.02 # Use decimal for percentage (2%)
+#            - type: EARN_POINT_BY_RATE
+#              parameters:
+#                rate: 0.05 # Use decimal for percentage (5%)
+#    super-card:
+#      name: Super Card Purchases
+#      rules:
+#        - name: Earn points for super card purchases 10k or 10001
+#          conditions:
+#            - type: OPERATOR
+#              or:
+#              - type: EQUALS
+#                parameters:
+#                  amount: 10000
+#              - type: EQUALS
+#                parameters:
+#                  amount: 10001
+#          actions:
+#            - type: EARN_POINT_BY_RATE
+#              parameters:
+#                rate: 0.1 # Use decimal for percentage (10%)
+#
+#    online-card:
+#      name: Online Purchases
+#      rules:
+#        - name: Earn points for online card purchases over 10k
+#          conditions:
+#            - type: OPERATOR
+#              name: Not equals 1
+#              not:
+#                - name: Not equals 1
+#                  type: EQUALS
+#                  parameters:
+#                    amount: 1
+#          actions:
+#            - type: EARN_POINT_BY_RATE
+#              parameters:
+#                rate: 0.04 # Use decimal for percentage (4%)
 
 #
 #        - name: Earn points for regular card purchases over 10k

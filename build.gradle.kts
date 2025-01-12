@@ -35,7 +35,11 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-log4j2")
   implementation("org.apache.logging.log4j:log4j-api-kotlin:1.5.0")
 
-  runtimeOnly("com.h2database:h2")
+  implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+//  runtimeOnly("com.h2database:h2")
+  runtimeOnly("com.mysql:mysql-connector-j")
+
   runtimeOnly("org.springframework.modulith:spring-modulith-actuator")
   runtimeOnly("org.springframework.modulith:spring-modulith-observability")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
