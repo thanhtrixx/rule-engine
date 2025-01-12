@@ -1,18 +1,10 @@
 package trile.rule.model
 
-import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.context.annotation.Configuration
 import trile.rule.action.ActionType
 import trile.rule.condition.ConditionType
 import trile.rule.model.Constants.Companion.EMPTY_CONDITIONS
 import trile.rule.model.Constants.Companion.EMPTY_MAP
 import trile.rule.model.Constants.Companion.EMPTY_STRING
-
-@Configuration
-@ConfigurationProperties(prefix = "rules")
-data class RuleConfiguration(
-  val useCases: Map<String, RuleSetDefinition>
-)
 
 data class RuleSetDefinition(
   val name: String = EMPTY_STRING,

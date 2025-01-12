@@ -13,9 +13,9 @@ import trile.rule.condition.ConditionParameterConverter
 import trile.rule.condition.ConditionType
 import trile.rule.condition.OperatorConditionParameter
 import trile.rule.condition.OperatorType
+import trile.rule.config.RuleConfiguration
 import trile.rule.model.ActionDefinition
 import trile.rule.model.ConditionDefinition
-import trile.rule.model.RuleConfiguration
 import trile.rule.model.RuleDefinition
 import trile.rule.model.TransactionContext
 

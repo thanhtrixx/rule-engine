@@ -1,14 +1,11 @@
 package trile
 
-import java.math.BigDecimal
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import trile.common.Log
-import trile.rule.engine.RuleEngine
-import trile.rule.model.RuleConfiguration
-import trile.rule.model.TransactionContext
+import trile.rule.config.RuleConfiguration
 
 @SpringBootApplication
 class RuleEngineApplication(
