@@ -7,6 +7,7 @@ import trile.rule.model.Constants.Companion.EMPTY_MAP
 import trile.rule.model.Constants.Companion.EMPTY_STRING
 
 data class RuleSetDefinition(
+  val useCase: String = EMPTY_STRING,
   val name: String = EMPTY_STRING,
   val rules: List<RuleDefinition>
 )

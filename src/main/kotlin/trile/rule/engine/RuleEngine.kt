@@ -13,21 +13,21 @@ import trile.rule.condition.ConditionParameterConverter
 import trile.rule.condition.ConditionType
 import trile.rule.condition.OperatorConditionParameter
 import trile.rule.condition.OperatorType
-import trile.rule.config.RuleConfiguration
 import trile.rule.model.ActionDefinition
 import trile.rule.model.ConditionDefinition
 import trile.rule.model.RuleDefinition
+import trile.rule.model.RuleSetDefinition
 import trile.rule.model.TransactionContext
 
 @Service
 class RuleEngine(
-  ruleConfig: RuleConfiguration,
+  ruleSetsByUseCase: Map<String, RuleSetDefinition>,
   private val conditionMap: Map<ConditionType, Condition<Any>>,
   private val actionMap: Map<ActionType, Action<Any>>
 ) : Log {
 
   private val ruleExecutorsByType: Map<String, RuleExecutor> =
-    ruleConfig.useCases
+    ruleSetsByUseCase
       .map {
         it.key to RuleExecutor(it.value.name, createRules(it.value.rules))
       }.toMap()

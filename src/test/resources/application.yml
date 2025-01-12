@@ -1,9 +1,22 @@
+spring:
+  application:
+    name: rule-engine
+
+  datasource:
+    url: jdbc:h2:mem:AZ;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driverClassName: org.h2.Driver
+
+  jpa:
+    show-sql: on
+    open-in-view: off
+
 rules:
-  use-cases:
-    regular-card:
+  source: YAML
+  rule-sets:
+    - use-case: regular-card
       name: Regular Card Purchases
       rules:
-        - name: Earn points for regular card purchases with a minimum spend of 10,000 VND
+        - name: Earn points for regular card purchases over 10k
           conditions:
             - type: EQUALS
               parameters:
@@ -11,15 +24,14 @@ rules:
           actions:
             - type: EARN_POINT_BY_RATE
               parameters:
-                rate: 0.02 # 2% reward rate for eligible transactions
+                rate: 0.02 # Use decimal for percentage (2%)
             - type: EARN_POINT_BY_RATE
               parameters:
-                rate: 0.05 # Additional 5% reward rate for specific transactions
-
-    super-card:
+                rate: 0.05 # Use decimal for percentage (5%)
+    - use-case: super-card
       name: Super Card Purchases
       rules:
-        - name: Earn points for super card purchases of 10,000 or 10,001 VND
+        - name: Earn points for super card purchases 10k or 10001
           conditions:
             - type: OPERATOR
               or:
@@ -32,19 +44,32 @@ rules:
           actions:
             - type: EARN_POINT_BY_RATE
               parameters:
-                rate: 0.1 # 10% reward rate for super card transactions
+                rate: 0.1 # Use decimal for percentage (10%)
 
-    online-card:
-      name: Online Card Purchases
+    - use-case: online-card
+      name: Online Purchases
       rules:
-        - name: Earn points for online purchases not equal to 1 VND
+        - name: Earn points for online card purchases over 10k
           conditions:
             - type: OPERATOR
+              name: Not equals 1
               not:
-                - type: EQUALS
+                - name: Not equals 1
+                  type: EQUALS
                   parameters:
                     amount: 1
           actions:
             - type: EARN_POINT_BY_RATE
               parameters:
-                rate: 0.04 # 4% reward rate for online purchases
+                rate: 0.04 # Use decimal for percentage (4%)
+
+
+        - name: Earn points for regular card purchases over 10k
+          conditions:
+            - type: EQUALS
+              parameters:
+                amount: 10000
+          actions:
+            - type: EARN_POINT_BY_RATE
+              parameters:
+                rate: 0.02 # Use decimal for percentage (2%)

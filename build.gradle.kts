@@ -40,7 +40,6 @@ dependencies {
 
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
-//  runtimeOnly("com.h2database:h2")
   runtimeOnly("com.mysql:mysql-connector-j")
 
   runtimeOnly("org.springframework.modulith:spring-modulith-actuator")
@@ -51,6 +50,7 @@ dependencies {
   testImplementation("org.springframework.modulith:spring-modulith-starter-test")
   testImplementation("org.testcontainers:junit-jupiter")
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+  testRuntimeOnly("com.h2database:h2")
   testImplementation("io.mockk:mockk:1.13.7")
 }
 

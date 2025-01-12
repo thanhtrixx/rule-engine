@@ -8,12 +8,18 @@ import trile.rule.model.RuleSetDefinition
 
 @RestController
 @RequestMapping("/api/rules")
-class RuleConfigController(private val ruleConfigService: RuleConfigService) {
+class RuleConfigController(
+  private val ruleConfigService: RuleConfigService,
+  private val ruleSetsByUseCase: Map<String, RuleSetDefinition>
+) {
 
   @GetMapping
   fun getAllRules(): ResponseEntity<List<RuleSetDefinition>> {
     return ResponseEntity.ok(ruleConfigService.getAllRuleSets())
   }
+
+  @GetMapping("rule-set-by-use-case")
+  fun getRuleSetByUserCase() = ruleSetsByUseCase
 
 //  @PostMapping
 //  fun createRuleSet(@RequestBody ruleSet: RuleSetDefinition): ResponseEntity<RuleSetDefinition> {

@@ -11,104 +11,66 @@ spring:
     open-in-view: off
 
 
-#rules:
-#  use-cases:
-#    regular-card:
-#      name: Regular Card Purchases
-#      rules:
-#        - name: Earn points for regular card purchases over 10k
-#          conditions:
-#            - type: EQUALS
-#              parameters:
-#                amount: 10000
-#          actions:
-#            - type: EARN_POINT_BY_RATE
-#              parameters:
-#                rate: 0.02 # Use decimal for percentage (2%)
-#            - type: EARN_POINT_BY_RATE
-#              parameters:
-#                rate: 0.05 # Use decimal for percentage (5%)
-#    super-card:
-#      name: Super Card Purchases
-#      rules:
-#        - name: Earn points for super card purchases 10k or 10001
-#          conditions:
-#            - type: OPERATOR
-#              or:
-#              - type: EQUALS
-#                parameters:
-#                  amount: 10000
-#              - type: EQUALS
-#                parameters:
-#                  amount: 10001
-#          actions:
-#            - type: EARN_POINT_BY_RATE
-#              parameters:
-#                rate: 0.1 # Use decimal for percentage (10%)
-#
-#    online-card:
-#      name: Online Purchases
-#      rules:
-#        - name: Earn points for online card purchases over 10k
-#          conditions:
-#            - type: OPERATOR
-#              name: Not equals 1
-#              not:
-#                - name: Not equals 1
-#                  type: EQUALS
-#                  parameters:
-#                    amount: 1
-#          actions:
-#            - type: EARN_POINT_BY_RATE
-#              parameters:
-#                rate: 0.04 # Use decimal for percentage (4%)
+rules:
+  source: DB
+  rule-sets:
+  - use-case: regular-card
+    name: Regular Card Purchases
+    rules:
+      - name: Earn points for regular card purchases over 10k
+        conditions:
+          - type: EQUALS
+            parameters:
+              amount: 10000
+        actions:
+          - type: EARN_POINT_BY_RATE
+            parameters:
+              rate: 0.02 # Use decimal for percentage (2%)
+          - type: EARN_POINT_BY_RATE
+            parameters:
+              rate: 0.05 # Use decimal for percentage (5%)
+  - use-case: super-card
+    name: Super Card Purchases
+    rules:
+      - name: Earn points for super card purchases 10k or 10001
+        conditions:
+          - type: OPERATOR
+            or:
+              - type: EQUALS
+                parameters:
+                  amount: 10000
+              - type: EQUALS
+                parameters:
+                  amount: 10001
+        actions:
+          - type: EARN_POINT_BY_RATE
+            parameters:
+              rate: 0.1 # Use decimal for percentage (10%)
 
-#
-#        - name: Earn points for regular card purchases over 10k
-#          conditions:
-#            - type: GREATER_THAN
-#              parameters:
-#                amount: 10000
-#          actions:
-#            - type: EARN_POINT_BY_RATE
-#              parameters:
-#                rate: 0.02 # Use decimal for percentage (2%)
-#
-#    online-discount-card:
-#      name: Online Discount Card Purchases
-#      rules:
-#        - name: Earn points for online purchases
-#          conditions:
-#            - type: EQUALS
-#              parameters:
-#                channel: ONLINE
-#          actions:
-#            - type: EARN_POINT_BY_RATE
-#              parameters:
-#                rate: 0.05 # 5%
-#
-#    food-entertainment-card:
-#      name: Food and Entertainment Card Purchases
-#      rules:
-#        - name: Earn points for food and entertainment
-#          conditions:
-#            - type: IN_CATEGORIES
-#              parameters:
-#                category: RESTAURANT;CINEMA;COFFEE_SHOP
-#          actions:
-#            - type: EARN_POINT_BY_RATE
-#              parameters:
-#                rate: 0.07 # 7%
-#
-#    value-added-service:
-#      name: Value Added Service Purchases
-#      rules:
-#        - name: Earn points for VAS purchases containing keyword
-#          conditions:
-#            - type: CONTAINS
-#              parameters:
-#                text: buy
-#          actions:
-#            - type: EARN_POINT_BY_RATE
-#              parameters:
-#                rate: 0.07 # 7%
+  - use-case: online-card
+    name: Online Purchases
+    rules:
+      - name: Earn points for online card purchases over 10k
+        conditions:
+          - type: OPERATOR
+            name: Not equals 1
+            not:
+              - name: Not equals 1
+                type: EQUALS
+                parameters:
+                  amount: 1
+        actions:
+          - type: EARN_POINT_BY_RATE
+            parameters:
+              rate: 0.04 # Use decimal for percentage (4%)
+
+
+      - name: Earn points for regular card purchases over 10k
+        conditions:
+          - type: EQUALS
+            parameters:
+              amount: 10000
+        actions:
+          - type: EARN_POINT_BY_RATE
+            parameters:
+              rate: 0.02 # Use decimal for percentage (2%)

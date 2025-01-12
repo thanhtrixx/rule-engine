@@ -15,9 +15,13 @@ data class RuleSetDefinitionEntity(
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
   var id: Long = 0,
 
+  @Column(name = "use-case")
+  var useCase: String,
+
   var name: String,
 
   @JdbcTypeCode(SqlTypes.JSON)
-  @Column(name = "parameters", columnDefinition = "json")
+  @Column(name = "rules", columnDefinition = "json")
   var rules: List<RuleDefinition>
 )
+
