@@ -3,6 +3,9 @@ plugins {
   kotlin("plugin.spring") version "1.9.25"
   id("org.springframework.boot") version "3.4.1"
   id("io.spring.dependency-management") version "1.1.7"
+  kotlin("plugin.jpa") version "1.8.22" // Apply the JPA plugin
+  kotlin("kapt") version "1.8.22"
+  id("org.jetbrains.kotlin.plugin.noarg") version "1.9.25" // Apply the no-arg plugin
 }
 
 group = "trile"
@@ -35,7 +38,10 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-log4j2")
   implementation("org.apache.logging.log4j:log4j-api-kotlin:1.5.0")
 
-  runtimeOnly("com.h2database:h2")
+  implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+  runtimeOnly("com.mysql:mysql-connector-j")
+
   runtimeOnly("org.springframework.modulith:spring-modulith-actuator")
   runtimeOnly("org.springframework.modulith:spring-modulith-observability")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -44,6 +50,7 @@ dependencies {
   testImplementation("org.springframework.modulith:spring-modulith-starter-test")
   testImplementation("org.testcontainers:junit-jupiter")
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+  testRuntimeOnly("com.h2database:h2")
   testImplementation("io.mockk:mockk:1.13.7")
 }
 
@@ -51,6 +58,12 @@ dependencyManagement {
   imports {
     mavenBom("org.springframework.modulith:spring-modulith-bom:${property("springModulithVersion")}")
   }
+}
+
+noArg {
+  annotation("jakarta.persistence.Entity") // Add the @Entity annotation
+  annotation("jakarta.persistence.MappedSuperclass")
+  annotation("jakarta.persistence.Embeddable")
 }
 
 kotlin {

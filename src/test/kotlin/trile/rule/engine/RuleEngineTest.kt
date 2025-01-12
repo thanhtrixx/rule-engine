@@ -11,7 +11,7 @@ import trile.rule.action.Action
 import trile.rule.action.ActionType
 import trile.rule.condition.Condition
 import trile.rule.condition.ConditionType
-import trile.rule.model.RuleConfiguration
+import trile.rule.model.RuleSetDefinition
 import trile.rule.model.TransactionContext
 
 @SpringBootTest
@@ -26,7 +26,7 @@ class RuleEngineTest {
   private lateinit var actionMap: Map<ActionType, Action<Any>>
 
   @Autowired
-  private lateinit var ruleConfig: RuleConfiguration
+  private lateinit var ruleSetsByUseCase: Map<String, RuleSetDefinition>
 
   private lateinit var spyConditionMap: Map<ConditionType, Condition<Any>>
   private lateinit var spyActionMap: Map<ActionType, Action<Any>>
@@ -35,7 +35,7 @@ class RuleEngineTest {
   fun setup() {
     spyConditionMap = conditionMap.mapValues { spyk(it.value) }
     spyActionMap = actionMap.mapValues { spyk(it.value) }
-    ruleEngine = RuleEngine(ruleConfig, spyConditionMap, spyActionMap)
+    ruleEngine = RuleEngine(ruleSetsByUseCase, spyConditionMap, spyActionMap)
   }
 
   @Test

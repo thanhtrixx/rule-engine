@@ -1,31 +1,25 @@
 package trile.rule.model
 
-import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.context.annotation.Configuration
 import trile.rule.action.ActionType
 import trile.rule.condition.ConditionType
 import trile.rule.model.Constants.Companion.EMPTY_CONDITIONS
 import trile.rule.model.Constants.Companion.EMPTY_MAP
-
-@Configuration
-@ConfigurationProperties(prefix = "rules")
-data class RuleConfiguration(
-  val useCases: Map<String, RuleSetDefinition>
-)
+import trile.rule.model.Constants.Companion.EMPTY_STRING
 
 data class RuleSetDefinition(
-  val name: String,
+  val useCase: String = EMPTY_STRING,
+  val name: String = EMPTY_STRING,
   val rules: List<RuleDefinition>
 )
 
 data class RuleDefinition(
-  val name: String?,
+  val name: String = EMPTY_STRING,
   val conditions: List<ConditionDefinition> = emptyList(),
   val actions: List<ActionDefinition>
 )
 
 data class ConditionDefinition(
-  val name: String?,
+  val name: String = EMPTY_STRING,
   val type: ConditionType,
   val parameters: Map<String, String> = EMPTY_MAP,
   val or: List<ConditionDefinition> = EMPTY_CONDITIONS,
@@ -34,7 +28,7 @@ data class ConditionDefinition(
 )
 
 data class ActionDefinition(
-  val name: String?,
+  val name: String = EMPTY_STRING,
   val type: ActionType,
   val parameters: Map<String, String> = EMPTY_MAP
 )
