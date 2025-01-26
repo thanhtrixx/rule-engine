@@ -1,4 +1,23 @@
-# Rule Engine
+# Rule Engine 🚀
+
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Kotlin](https://img.shields.io/badge/kotlin-1.9.25-blue.svg)](https://kotlinlang.org)
+[![Spring Boot](https://img.shields.io/badge/spring%20boot-3.4.1-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![Java](https://img.shields.io/badge/java-21-orange.svg)](https://openjdk.org/projects/jdk/21/)
+
+## Table of Contents 📚
+- [Introduction](#introduction)
+- [How It Works](#how-it-works)
+  - [Example Use Case](#example-use-case)
+- [Getting Started](#getting-started)
+  - [Defining a Rule](#defining-a-rule)
+  - [Example Steps](#example-steps)
+  - [Using the Rule Engine](#using-the-rule-engine)
+- [Class Diagram for Rule Engine and Rule models](#class-diagram-for-rule-engine-and-rule-models)
+- [Flowchart for RuleEngine Execution](#flowchart-for-ruleengine-execution)
+- [Flowchart for OperatorCondition Evaluation](#flowchart-for-operatorcondition-evaluation-support-not-and-and-or-operators)
+
+---
 
 ## Introduction
 
@@ -9,6 +28,8 @@ To solve these challenges, the Rule Engine provides a configurable and extensibl
 - **Extensible:** New conditions and actions can be easily added to the system.
 - **User-Friendly:** Designed to be readable and understandable by both technical and non-technical users.
 - **Scalable:** Capable of handling multiple use cases with minimal performance overhead.
+
+---
 
 ## How It Works
 
@@ -168,20 +189,20 @@ classDiagram
 title: Flowchart for RuleEngine Execution
 ---
 flowchart TD
-    Start([Start]) --> GetTransaction[Receive TransactionContext]
-    GetTransaction --> FindExecutor[Find RuleExecutor for TransactionContext.type]
-    FindExecutor -->|Executor Found| CallExecutor["Call RuleExecutor.execute()"]
+    Start([Start]) --> LoadConfig[Load Rule Configuration]
+    LoadConfig --> ReceiveTransaction[Receive TransactionContext]
+    ReceiveTransaction --> FindExecutor[Find RuleExecutor for TransactionContext.type]
+    FindExecutor -->|Executor Found| EvaluateRules[Evaluate Rules]
     FindExecutor -->|No Executor Found| LogIgnored[Log: No Executor Found]
     LogIgnored --> End([End])
 
-    CallExecutor --> EvaluateRules[Iterate through all Rules]
-    EvaluateRules --> CheckConditions[Evaluate Conditions for Rule]
+    EvaluateRules --> CheckConditions[Check Conditions]
+    CheckConditions -->|All Conditions Pass| ExecuteActions[Execute Actions]
+    CheckConditions -->|Some Conditions Fail| SkipRule[Skip Rule]
 
-    CheckConditions -->|All Conditions Pass| ExecuteActions[Execute Actions for Rule]
-    CheckConditions -->|Some Conditions Fail| IgnoreRule[Skip Current Rule]
+    ExecuteActions --> NextRule[Next Rule]
+    SkipRule --> NextRule[Next Rule]
 
-    ExecuteActions --> NextRule[Move to Next Rule]
-    IgnoreRule --> NextRule
     NextRule -->|More Rules| EvaluateRules
     NextRule -->|No More Rules| End
 ```
@@ -191,34 +212,34 @@ flowchart TD
 ```mermaid
 ---
 ---
-title: Flowchart for OperatorCondition Evaluation (Updated)
+title: Flowchart for OperatorCondition Evaluation
 ---
 flowchart TD
     Start([Start]) --> CheckNOTList[Are NOT Operators Defined?]
-    
+
     CheckNOTList -->|Yes| EvaluateNOTList[Evaluate All NOT Operators]
     EvaluateNOTList --> AggregateNOTResults{Aggregate Results of NOT Operators}
     AggregateNOTResults -->|Inverted Results| ReturnNOTResult[Return Aggregated NOT Results]
     ReturnNOTResult --> End([End])
-    
+
     CheckNOTList -->|No| CheckAND[Are AND Operators Defined?]
-    
+
     CheckAND -->|Yes| EvaluateAND[Evaluate All AND Operators]
     EvaluateAND --> CheckAllANDTrue{Are All AND Results True?}
     CheckAllANDTrue -->|Yes| ReturnANDTrue[Return TRUE]
     CheckAllANDTrue -->|No| ReturnANDFalse[Return FALSE]
     ReturnANDTrue --> End
     ReturnANDFalse --> End
-    
+
     CheckAND -->|No| CheckOR[Are OR Operators Defined?]
-    
+
     CheckOR -->|Yes| EvaluateOR[Evaluate All OR Operators]
     EvaluateOR --> CheckAnyORTrue{Is Any OR Result True?}
     CheckAnyORTrue -->|Yes| ReturnORTrue[Return TRUE]
     CheckAnyORTrue -->|No| ReturnORFalse[Return FALSE]
     ReturnORTrue --> End
     ReturnORFalse --> End
-    
+
     CheckOR -->|No| ReturnDefaultFalse[Return FALSE]
     ReturnDefaultFalse --> End
 ```
